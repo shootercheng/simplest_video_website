@@ -1,17 +1,17 @@
 /**
- * ×î¼òµ¥µÄÊÓÆµÍøÕ¾
+ * ï¿½ï¿½òµ¥µï¿½ï¿½ï¿½Æµï¿½ï¿½Õ¾
  * Simplest Video Website
  *
- * À×Ïöæè Lei Xiaohua
+ * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Lei Xiaohua
  * 
  * leixiaohua1020@126.com
- * ÖÐ¹ú´«Ã½´óÑ§/Êý×ÖµçÊÓ¼¼Êõ
+ * ï¿½Ð¹ï¿½ï¿½ï¿½Ã½ï¿½ï¿½Ñ§/ï¿½ï¿½ï¿½Öµï¿½ï¿½Ó¼ï¿½ï¿½ï¿½
  * Communication University of China / Digital TV Technology
  * http://blog.csdn.net/leixiaohua1020
  *
- * ±¾³ÌÐòÊÇÒ»¸ö×î¼òµ¥µÄÊÓÆµÍøÕ¾ÊÓÆµ¡£ËüÖ§³Ö
- * 1.Ö±²¥
- * 2.µã²¥
+ * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½òµ¥µï¿½ï¿½ï¿½Æµï¿½ï¿½Õ¾ï¿½ï¿½Æµï¿½ï¿½ï¿½ï¿½Ö§ï¿½ï¿½
+ * 1.Ö±ï¿½ï¿½
+ * 2.ï¿½ã²¥
  * This software is the simplest video website.
  * It support: 
  * 1. live broadcast 
@@ -31,8 +31,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 /**
- * @author À×Ïöæè
- * ·þÎñÆ÷¿ªÊ¼ÔËÐÐºó£¬³õÊ¼»¯ÒÔÏÂ¼¸¸öÏß³Ì
+ * @author ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+ * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½Ðºó£¬³ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½Â¼ï¿½ï¿½ï¿½ï¿½ß³ï¿½
  */
 public class LoadOnStartServlet extends HttpServlet {
 
@@ -110,13 +110,13 @@ public class LoadOnStartServlet extends HttpServlet {
 		ServletContext sc = this.getServletContext();  
 		
 		//GetFFmpegInfo();
-		//³õÊ¼»¯µÄÊ±ºòÔËÐÐÒÔÏÂ¼¸¸öÏß³Ì
-		//½ØÍ¼
+		//ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â¼ï¿½ï¿½ï¿½ï¿½ß³ï¿½
+		//ï¿½ï¿½Í¼
 		VideoThumbnailThread videoThumbnailThread=new VideoThumbnailThread(sc);
-		videoThumbnailThread.start();
-		//×ªÂëÏß³Ì
+		videoThumbnailThread.run();
+		//×ªï¿½ï¿½ï¿½ß³ï¿½
 		VideoTranscoderThread videoConvertThread=new VideoTranscoderThread(sc);
-		videoConvertThread.start();
+		videoConvertThread.run();
 	}
 
 }

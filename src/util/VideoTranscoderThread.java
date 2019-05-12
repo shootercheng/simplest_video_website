@@ -1,17 +1,17 @@
 /**
- * ×î¼òµ¥µÄÊÓÆµÍøÕ¾
+ * ï¿½ï¿½òµ¥µï¿½ï¿½ï¿½Æµï¿½ï¿½Õ¾
  * Simplest Video Website
  *
- * À×Ïöæè Lei Xiaohua
+ * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Lei Xiaohua
  * 
  * leixiaohua1020@126.com
- * ÖÐ¹ú´«Ã½´óÑ§/Êý×ÖµçÊÓ¼¼Êõ
+ * ï¿½Ð¹ï¿½ï¿½ï¿½Ã½ï¿½ï¿½Ñ§/ï¿½ï¿½ï¿½Öµï¿½ï¿½Ó¼ï¿½ï¿½ï¿½
  * Communication University of China / Digital TV Technology
  * http://blog.csdn.net/leixiaohua1020
  *
- * ±¾³ÌÐòÊÇÒ»¸ö×î¼òµ¥µÄÊÓÆµÍøÕ¾ÊÓÆµ¡£ËüÖ§³Ö
- * 1.Ö±²¥
- * 2.µã²¥
+ * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½òµ¥µï¿½ï¿½ï¿½Æµï¿½ï¿½Õ¾ï¿½ï¿½Æµï¿½ï¿½ï¿½ï¿½Ö§ï¿½ï¿½
+ * 1.Ö±ï¿½ï¿½
+ * 2.ï¿½ã²¥
  * This software is the simplest video website.
  * It support: 
  * 1. live broadcast 
@@ -43,11 +43,11 @@ import service.BaseService;
 
 
 /**
- * @author À×Ïöæè
- * ×ªÂë
+ * @author ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+ * ×ªï¿½ï¿½
  */
-public class VideoTranscoderThread extends Thread {
-private ServletContext servletContext;
+public class VideoTranscoderThread {
+private static ServletContext servletContext;
 	
 	public ServletContext getServletContext() {
 		return servletContext;
@@ -56,12 +56,12 @@ private ServletContext servletContext;
 	public void setServletContext(ServletContext servletContext) {
 		this.servletContext = servletContext;
 	}
-	//¹¹Ôìº¯Êý
+	//ï¿½ï¿½ï¿½ìº¯ï¿½ï¿½
 	public VideoTranscoderThread(ServletContext servletContext) {
 		super();
 		this.servletContext = servletContext;
 	}
-	public void run() {
+	public static void run() {
 		try {
 		int order=3;
 		WebApplicationContext ctx = WebApplicationContextUtils.getWebApplicationContext(servletContext);
@@ -109,9 +109,7 @@ private ServletContext servletContext;
 			realfileDirFile.mkdir();
 		}
 
-		do{
-
-			
+//		do{
 			List<Video> resultvideo=baseService.ReadByProperty("Video","videostate.order", order);
 			Videostate nextvideostate=(Videostate) baseService.ReadSingle("Videostate","order", order+1);
 				if(resultvideo!=null){
@@ -123,20 +121,20 @@ private ServletContext servletContext;
 						String realfilePath=servletContext.getRealPath("/").replace('\\', '/')+video.getUrl();
 						
 						String realfileoriginalPath=servletContext.getRealPath("/").replace('\\', '/')+video.getOriurl();
-						//×ªÂëÃüÁîÈçÏÂËùÊ¾
+						//×ªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¾
 						//ffmpeg -i xxx.mkv -ar 22050 -b 600k -vcodec libx264 
 						//-vf scale=w=640:h=360:force_original_aspect_ratio=decrease,pad=w=640:h=360:x=(ow-iw)/2:y=(oh-ih)/2[aa];
 						//movie=watermark.png[bb];[aa][bb]overlay=5:5 yyy.flv
-						//AVFilter²ÎÊý×÷ÓÃÈçÏÂËùÊ¾
-						//scale:ÊÓÆµÀ­ÉìÂË¾µ¡£force_original_aspect_ratioÓÃÓÚÇ¿ÖÆ±£³Ö¿í¸ß±È
-						//pad:ÓÃÓÚ¼ÓºÚ±ß£¬ËÄ¸ö²ÎÊýº¬Òå·Ö±ðÎª£º´¦Àíºó¿í£¬´¦Àíºó¸ß£¬ÊäÈëÍ¼Ïñ×óÉÏ½Çx×ø±ê£¬ÊäÈëÊÓÆµ×óÉÏ½ÇY×ø±ê¡£
-						//ÆäÖÐow,ohÎªÊä³ö£¨Ìî³äºó£©ÊÓÆµµÄ¿í¸ß£»iw,ihÎªÊäÈë£¨Ìî³äÇ°£©ÊÓÆµµÄ¿í¸ß¡£
-						//movie£ºÓÃÓÚÖ¸¶¨ÐèÒªµþ¼ÓµÄË®Ó¡Logo£¨PNGÎÄ¼þ£©¡£
-						//overlay:ÓÃÓÚµþ¼ÓË®Ó¡LogoºÍÊÓÆµÎÄ¼þ
-						//ÃüÁîÐÐ²»Í¬µÄÖ´ÐÐ·½Ê½
-						//cmd /c xxx ÊÇÖ´ÐÐÍêxxxÃüÁîºó¹Ø±ÕÃüÁî´°¿Ú¡£
-						//cmd /k xxx ÊÇÖ´ÐÐÍêxxxÃüÁîºó²»¹Ø±ÕÃüÁî´°¿Ú¡£
-						//cmd /c start xxx »á´ò¿ªÒ»¸öÐÂ´°¿ÚºóÖ´ÐÐxxxÖ¸Áî£¬Ô­´°¿Ú»á¹Ø±Õ¡£
+						//AVFilterï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¾
+						//scale:ï¿½ï¿½Æµï¿½ï¿½ï¿½ï¿½ï¿½Ë¾ï¿½ï¿½ï¿½force_original_aspect_ratioï¿½ï¿½ï¿½ï¿½Ç¿ï¿½Æ±ï¿½ï¿½Ö¿ï¿½ß±ï¿½
+						//pad:ï¿½ï¿½ï¿½Ú¼ÓºÚ±ß£ï¿½ï¿½Ä¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö±ï¿½Îªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ß£ï¿½ï¿½ï¿½ï¿½ï¿½Í¼ï¿½ï¿½ï¿½ï¿½ï¿½Ï½ï¿½xï¿½ï¿½ï¿½ê£¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æµï¿½ï¿½ï¿½Ï½ï¿½Yï¿½ï¿½ï¿½ê¡£
+						//ï¿½ï¿½ï¿½ï¿½ow,ohÎªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æµï¿½Ä¿ï¿½ß£ï¿½iw,ihÎªï¿½ï¿½ï¿½ë£¨ï¿½ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½Æµï¿½Ä¿ï¿½ß¡ï¿½
+						//movieï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¸ï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½ï¿½Óµï¿½Ë®Ó¡Logoï¿½ï¿½PNGï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½
+						//overlay:ï¿½ï¿½ï¿½Úµï¿½ï¿½ï¿½Ë®Ó¡Logoï¿½ï¿½ï¿½ï¿½Æµï¿½Ä¼ï¿½
+						//ï¿½ï¿½ï¿½ï¿½ï¿½Ð²ï¿½Í¬ï¿½ï¿½Ö´ï¿½Ð·ï¿½Ê½
+						//cmd /c xxx ï¿½ï¿½Ö´ï¿½ï¿½ï¿½ï¿½xxxï¿½ï¿½ï¿½ï¿½ï¿½Ø±ï¿½ï¿½ï¿½ï¿½î´°ï¿½Ú¡ï¿½
+						//cmd /k xxx ï¿½ï¿½Ö´ï¿½ï¿½ï¿½ï¿½xxxï¿½ï¿½ï¿½ï¿½ó²»¹Ø±ï¿½ï¿½ï¿½ï¿½î´°ï¿½Ú¡ï¿½
+						//cmd /c start xxx ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½Â´ï¿½ï¿½Úºï¿½Ö´ï¿½ï¿½xxxÖ¸ï¿½î£¬Ô­ï¿½ï¿½ï¿½Ú»ï¿½Ø±Õ¡ï¿½
 						String videotranscodecommand="cmd ";
 						videotranscodecommand+="/c start ";
 						//videotranscodecommand+="/c ";
@@ -186,7 +184,7 @@ private ServletContext servletContext;
 						}
 						
 						if (process.waitFor() != 0) {  
-							if (process.exitValue() == 1)//p.exitValue()==0±íÊ¾Õý³£½áÊø£¬1£º·ÇÕý³£½áÊø  
+							if (process.exitValue() == 1)//p.exitValue()==0ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½1ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½  
 								System.err.println("Failed!");  
 						}  
 						inBr.close();  
@@ -195,11 +193,11 @@ private ServletContext servletContext;
 						video.setVideostate(nextvideostate);
 						baseService.update(video);
 						//Rest--------------------------
-						sleep(10 * 1000);
+//						sleep(10 * 1000);
 					}
 				}
-			sleep(10 * 1000);
-		}while(true);
+//			sleep(10 * 1000);
+//		}while(true);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

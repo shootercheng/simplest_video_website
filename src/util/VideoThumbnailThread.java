@@ -1,17 +1,17 @@
 /**
- * ×î¼òµ¥µÄÊÓÆµÍøÕ¾
+ * ï¿½ï¿½òµ¥µï¿½ï¿½ï¿½Æµï¿½ï¿½Õ¾
  * Simplest Video Website
  *
- * À×Ïöæè Lei Xiaohua
+ * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Lei Xiaohua
  * 
  * leixiaohua1020@126.com
- * ÖÐ¹ú´«Ã½´óÑ§/Êý×ÖµçÊÓ¼¼Êõ
+ * ï¿½Ð¹ï¿½ï¿½ï¿½Ã½ï¿½ï¿½Ñ§/ï¿½ï¿½ï¿½Öµï¿½ï¿½Ó¼ï¿½ï¿½ï¿½
  * Communication University of China / Digital TV Technology
  * http://blog.csdn.net/leixiaohua1020
  *
- * ±¾³ÌÐòÊÇÒ»¸ö×î¼òµ¥µÄÊÓÆµÍøÕ¾ÊÓÆµ¡£ËüÖ§³Ö
- * 1.Ö±²¥
- * 2.µã²¥
+ * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½òµ¥µï¿½ï¿½ï¿½Æµï¿½ï¿½Õ¾ï¿½ï¿½Æµï¿½ï¿½ï¿½ï¿½Ö§ï¿½ï¿½
+ * 1.Ö±ï¿½ï¿½
+ * 2.ï¿½ã²¥
  * This software is the simplest video website.
  * It support: 
  * 1. live broadcast 
@@ -43,11 +43,11 @@ import service.BaseService;
 
 
 /**
- * @author À×Ïöæè
- * ½ØÈ¡ËõÂÔÍ¼
+ * @author ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+ * ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½Í¼
  */
-public class VideoThumbnailThread extends Thread {
-	private ServletContext servletContext;
+public class VideoThumbnailThread {
+	private static ServletContext servletContext;
 	
 	public ServletContext getServletContext() {
 		return servletContext;
@@ -60,7 +60,7 @@ public class VideoThumbnailThread extends Thread {
 		super();
 		this.servletContext = servletContext;
 	}
-	public void run() {
+	public static void run() {
 		try {
 		int order=2;
 		WebApplicationContext ctx = WebApplicationContextUtils.getWebApplicationContext(servletContext);
@@ -78,7 +78,7 @@ public class VideoThumbnailThread extends Thread {
 			realthumbnailDirFile.mkdir();
 		}
 		
-		do{
+//		do{
 			List<Video> resultvideo=baseService.ReadByProperty("Video","videostate.order", order);
 			Videostate nextvideostate=(Videostate) baseService.ReadSingle("Videostate","order", order+1);
 			
@@ -110,7 +110,7 @@ public class VideoThumbnailThread extends Thread {
 						while ((lineStr = inBr.readLine()) != null)  
 								System.out.println(lineStr);
 						if (process.waitFor() != 0) {  
-							if (process.exitValue() == 1)//p.exitValue()==0±íÊ¾Õý³£½áÊø£¬1£º·ÇÕý³£½áÊø  
+							if (process.exitValue() == 1)//p.exitValue()==0ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½1ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½  
 								System.err.println("Failed!");  
 						}  
 						inBr.close();  
@@ -126,11 +126,11 @@ public class VideoThumbnailThread extends Thread {
 						
 						baseService.update(video);
 						//Rest--------------------------
-						sleep(10 * 1000);
+//						sleep(10 * 1000);
 					}
 				}
-			sleep(10 * 1000);
-		}while(true);
+//			sleep(10 * 1000);
+//		}while(true);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
